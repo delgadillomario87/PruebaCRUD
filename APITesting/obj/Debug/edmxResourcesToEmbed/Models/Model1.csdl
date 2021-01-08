@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PersonBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Gender">
+    <Key>
+      <PropertyRef Name="genderId" />
+    </Key>
+    <Property Name="genderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="gender1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="Int16" />
+    <NavigationProperty Name="Person" Relationship="Self.FK__Person__genderId__267ABA7A" FromRole="Gender" ToRole="Person" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="personId" />
+    </Key>
+    <Property Name="personId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="genderId" Type="Int32" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="lastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Gender" Relationship="Self.FK__Person__genderId__267ABA7A" FromRole="Person" ToRole="Gender" />
+  </EntityType>
+  <Association Name="FK__Person__genderId__267ABA7A">
+    <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+    <End Role="Person" Type="Self.Person" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Gender">
+        <PropertyRef Name="genderId" />
+      </Principal>
+      <Dependent Role="Person">
+        <PropertyRef Name="genderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PersonBDEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Gender" EntityType="Self.Gender" />
+    <EntitySet Name="Person" EntityType="Self.Person" />
+    <AssociationSet Name="FK__Person__genderId__267ABA7A" Association="Self.FK__Person__genderId__267ABA7A">
+      <End Role="Gender" EntitySet="Gender" />
+      <End Role="Person" EntitySet="Person" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
